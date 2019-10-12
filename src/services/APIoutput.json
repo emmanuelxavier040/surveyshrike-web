@@ -1,0 +1,32 @@
+[
+  {
+    "surveyId": 1,
+    "surveyName": "Survey TEST",
+    "surveyDescription": "This is a test survey",
+    "creatorName": "Emmanuel",
+    "creationDate": null,
+    "creatorId": null,
+    "questions": [
+      {
+        "questionId": 1,
+        "orderNumber": 1,
+        "questionText": "Why do you like cricket?",
+        "answerType": "MULTIPLE_LINE_INPUT",
+        "choices": [
+          {
+            "choiceId": 1,
+            "choiceValue": "It is the best"
+          },
+          {
+            "choiceId": 2,
+            "choiceValue": "It is easy to play "
+          },
+          {
+            "choiceId": 3,
+            "choiceValue": "It is challenging"
+          }
+        ]
+      }
+    ]
+  }
+]

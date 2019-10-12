@@ -1,0 +1,48 @@
+{
+  "name": "surveyshrike-web-ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/bootstrap": "^4.3.1",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.11",
+    "@types/react": "^16.9.5",
+    "@types/react-dom": "^16.9.1",
+    "@types/react-redux": "^7.1.4",
+    "@types/react-router-dom": "^5.1.0",
+    "@types/react-tagsinput": "^3.19.6",
+    "@types/reactstrap": "^8.0.4",
+    "bootstrap": "^4.3.1",
+    "http-server": "^0.11.1",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "react-tagsinput": "^3.19.0",
+    "reactstrap": "^8.0.1",
+    "redux": "^4.0.4",
+    "typescript": "^3.6.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
