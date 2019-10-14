@@ -1,4 +1,4 @@
-const apiURL = "http://localhost:8080/api/v1";
+const apiURL = "http://13.127.87.2:8080/api/v1";
 
 export const apiService = { apiCall }
 
