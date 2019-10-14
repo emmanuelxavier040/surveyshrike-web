@@ -7,8 +7,20 @@ export const surveyService = {
 }
 
 function getAllSurveys() {
-    const file = require("./APIoutput.json");
-    return file
+    const requestOptions = {
+        method: 'GET',        
+    }
+    const getSurveysResponse = apiService.apiCall('/surveys', requestOptions)
+    getSurveysResponse
+        .then(
+            (response: any) => {
+                return response
+            },
+            (error: any) => {
+                return Promise.reject(error)
+            }
+        )
+    return getSurveysResponse
 }
 
 
@@ -27,13 +39,13 @@ function getAllSurveys() {
 function createNewSurvey(surveyObj: any) {
     const requestOptions = {
         method: 'POST',
-        body: JSON.stringify({ surveyObj })
+        body: JSON.stringify(surveyObj)
     }
     const createSurveyResponse = apiService.apiCall('/create-survey', requestOptions)
     createSurveyResponse
         .then(
             (response: any) => {
-                return response.data
+                return response
             },
             (error: any) => {
                 return Promise.reject(error)

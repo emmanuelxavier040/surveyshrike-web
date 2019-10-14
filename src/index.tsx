@@ -11,6 +11,7 @@ import { Provider } from 'react-redux'
 import createBrowserHistory from './history';
 
 export const store = createStore<IAppReducer, any, any, any>(reducers)
+
 ReactDOM.render((
     <Provider store={store}>
         <Router history={createBrowserHistory}>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Collapse, DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarToggler, NavItem, UncontrolledDropdown } from 'reactstrap';
-
+import { GoogleLogout } from 'react-google-login';
+ 
 
 const NavBar = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +31,16 @@ const NavBar = (props: any) => {
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                Logout
+                 
+                </DropdownItem>    
+
+<GoogleLogout
+      clientId="561673755028-4jo9u0c2c0fmro007t01l8to4fa16lcn.apps.googleusercontent.com"
+      buttonText="Logout"
+      onLogoutSuccess={() => {}}
+    />
+                <DropdownItem>
+                  
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

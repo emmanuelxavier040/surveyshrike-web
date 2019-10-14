@@ -1,7 +1,7 @@
 import * as React from 'react';
 import 'react-tagsinput/react-tagsinput.css';
 import { Alert, Button, Collapse, Modal, ModalBody, ModalFooter, ModalHeader, Spinner } from 'reactstrap';
-import { ISurveyProps } from '../../containers/Survey.container';
+import { ISurveyProps } from '../../containers/SurveyTemplate.container';
 import './css/SurveyTemplate.css';
 import FieldSelectForm from "./FieldSelectionForm";
 import { SurveyTemplatePresentation } from './SurveyTemplatePresentation';
@@ -113,7 +113,7 @@ class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
 
   addNewField(newFieldData: any) {
     let newFieldElement = { ...newFieldData }
-    newFieldElement.id = this.createId(newFieldElement.label)
+    newFieldElement.id = this.createId(newFieldElement.questionText)
     this.toggleFieldSelection()
     this.props.addSurveyFormElement(newFieldElement)
   }
@@ -124,7 +124,7 @@ class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
 
   createSurvey() {
     const newFormElements = this.props.survey.formElements.map(
-      (element: any, index: any) => { return { ...element, order: index } })
+      (element: any, index: any) => { return { ...element, orderNumber: index } })
     const surveyObject = {
       surveyName: this.props.survey.surveyName,
       surveyDescription: this.props.survey.surveyDescription,
