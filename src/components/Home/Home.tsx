@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';  
 import { Button, Container } from 'reactstrap';
-import { CreateSurveyTemplate } from '../../containers/Survey.container';
+import { CreateSurveyTemplate } from '../../containers/SurveyTemplate.container';
 
 import './css/Home.css';
 

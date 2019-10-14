@@ -1,4 +1,3 @@
-import { store } from '../index'
 import { surveyService } from '../services/survey.service'
 
 export const SurveyActions = {
@@ -7,7 +6,9 @@ export const SurveyActions = {
     addSurveyName,
     addSurveyDescription,
     clearSurveyForm,
-    createSurvey
+    createSurvey,
+    getSurveys,
+    getSurvey
 }
 
 function addSurveyFormElement(surveyObj: any) {
@@ -30,18 +31,51 @@ function clearSurveyForm() {
     return { type: 'CLEAR_SURVEY_FORM', data: '' }
 }
 
-function createSurvey(surveyObj: any, callback: any = (props: any) => {}) {
-    console.log(callback)
-    store.dispatch({ type: 'CREATE_SURVEY_REQUEST_STARTED' })
-    surveyService.createNewSurvey(surveyObj).then(
-        response => {
-            store.dispatch({ type: 'SUCCESS_CREATE_SURVEY_REQUEST' })
-            callback(true)
-        },
-        error => {
-            store.dispatch({ type: 'FAILURE_CREATE_SURVEY_REQUEST' })
-            callback(true)
-        }
-    )
-    return { type: 'CREATE_SURVEY_REQUEST_ENDED' }
+function createSurvey(surveyObj: any, callback: any = (props: any) => { }) {
+    return (dispatch: any) => {
+        dispatch({ type: 'CREATE_SURVEY_REQUEST_STARTED' })
+        surveyService.createNewSurvey({ ...surveyObj }).then(
+            response => {
+                dispatch({ type: 'SUCCESS_CREATE_SURVEY_REQUEST' })
+                callback(true)
+            },
+            error => {
+                dispatch({ type: 'FAILURE_CREATE_SURVEY_REQUEST' })
+                callback(false)
+            }
+        )
+        dispatch({ type: 'CREATE_SURVEY_REQUEST_ENDED' })
+    }
+}
+
+function getSurveys() {
+    return (dispatch: any) => {
+        dispatch({ type: 'GET_SURVEYS_REQUEST_STARTED' })
+        surveyService.getAllSurveys().then(
+            response => {
+                dispatch({ type: 'SUCCESS_GET_SURVEYS_REQUEST' })
+                dispatch({ type: 'ADD_SURVEYS_LIST', data: response })
+            },
+            error => {
+                dispatch({ type: 'FAILURE_GET_SURVEYS_REQUEST' })
+            }
+        )
+        dispatch({ type: 'GET_SURVEYS_REQUEST_ENDED' })
+    }
+}
+
+function getSurvey(surveyId: any) {
+    return (dispatch: any) => {
+        dispatch({ type: 'GET_SURVEY_REQUEST_STARTED' })
+        surveyService.getAllSurveys().then(
+            response => {
+                dispatch({ type: 'SUCCESS_GET_SURVEY_REQUEST' })
+                dispatch({ type: 'ADD_OPEN_SURVEY', data: response })
+            },
+            error => {
+                dispatch({ type: 'FAILURE_GET_SURVEY_REQUEST' })
+            }
+        )
+        dispatch({ type: 'GET_SURVEY_REQUEST_ENDED' })
+    }
 }

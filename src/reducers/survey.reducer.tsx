@@ -2,14 +2,16 @@ export interface ISurvey {
     surveyName: any,
     surveyDescription: any,
     formElements: Array<any>,
-    surveyCreationStatus: boolean
+    surveyCreationStatus: boolean,
+    surveyList: Array<any>
 }
 
 const defaultSurveyState: ISurvey = {
     surveyName: null,
     surveyDescription: null,
     formElements: [],
-    surveyCreationStatus: false
+    surveyCreationStatus: false,
+    surveyList: []
 }
 
 export const surveyReducer = (state: ISurvey = defaultSurveyState, action: any): ISurvey => {
@@ -30,6 +32,10 @@ export const surveyReducer = (state: ISurvey = defaultSurveyState, action: any):
             return defaultSurveyState
         case 'SUCCESS_CREATE_SURVEY_REQUEST':
             return { ...state, surveyCreationStatus: true }
+
+        case 'ADD_SURVEYS_LIST':
+            return { ...state, surveyList: action.data }
+
         default:
             return state
     }

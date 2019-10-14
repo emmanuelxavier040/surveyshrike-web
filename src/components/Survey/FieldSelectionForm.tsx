@@ -12,9 +12,11 @@ export default class FieldSelectForm extends React.Component<any, any> {
 
     private defaultNewFieldData = {
         label: null,
-        type: 'text',
+        type: 'SINGLE_LINE_INPUT',
         placeholder: '',
-        tags: []
+        tags: [],
+        tag: '',
+        choices: []
     }
 
     constructor(props: any) {
@@ -24,9 +26,20 @@ export default class FieldSelectForm extends React.Component<any, any> {
         this.cancel = this.cancel.bind(this)
         this.isInvalidLabel = this.isInvalidLabel.bind(this)
     }
+    
+    handleChangeInput(tag: any) {
+        this.setState({tag})
+      }
 
     handleChange(property: any, value: any) {
+        if(property === 'tags') {
+            let choices = this.state.choices
+            choices.push({choiceValue: this.state.tag})
+            this.setState({ choices, [property]: value })
+        }
+        else
         this.setState({ [property]: value })
+
     }
 
     isTagsEmpty() {
@@ -39,23 +52,23 @@ export default class FieldSelectForm extends React.Component<any, any> {
     }
 
     isOptionRequired() {
-        return this.state.type === 'select' || this.state.type === 'radio'
+        return this.state.type === 'SELECT' || this.state.type === 'RADIO'
     }
 
     isPlaceHolderRequired() {
-        return this.state.type === 'text' || this.state.type === 'textarea'
+        return this.state.type === 'SINGLE_LINE_INPUT' || this.state.type === 'MULTIPLE_LINE_INPUT'
     }
 
     addNewField() {
         let fieldData: any = {
-            label: this.state.label,
-            type: this.state.type
+            questionText: this.state.label,
+            answerType: this.state.type
         }
 
         if (this.isPlaceHolderRequired())
             fieldData.placeholder = this.state.placeholder
         if (this.isOptionRequired())
-            fieldData.tags = this.state.tags
+            fieldData.choices = this.state.choices
         this.setState({ ...this.defaultNewFieldData }, () => { this.props.addNewFieldControl(fieldData) })
     }
 
@@ -70,7 +83,6 @@ export default class FieldSelectForm extends React.Component<any, any> {
 
         const optionInValid = this.isOptionRequired() && this.isTagsEmpty()
         const fieldInValid = strictLabelInValid || optionInValid
-        
         return (
             <React.Fragment>
                 <Modal isOpen={this.props.showForm} toggle={this.cancel}>
@@ -89,11 +101,11 @@ export default class FieldSelectForm extends React.Component<any, any> {
                                 <FormGroup>
                                     <Label for="fieldType" className='fieldLabel'>Answer Type</Label>
                                     <Input type="select" name="select" id="fieldType" onChange={(event: any) => this.handleChange('type', event.target.value)}>
-                                        <option value='text'>Single Line Input</option>
-                                        <option value='textarea'>Multiple Line Input</option>
-                                        <option value='select'>Select</option>
-                                        <option value='radio'>Radio</option>
-                                        <option value='file'>File Upload</option>
+                                        <option value='SINGLE_LINE_INPUT'>Single Line Input</option>
+                                        <option value='MULTIPLE_LINE_INPUT'>Multiple Line Input</option>
+                                        <option value='SELECT'>Select</option>
+                                        <option value='RADIO'>Radio</option>
+                                        <option value='FILEUPLOAD'>File Upload</option>
                                     </Input>
                                 </FormGroup>
                                 <Collapse isOpen={this.isPlaceHolderRequired()}>
@@ -108,7 +120,13 @@ export default class FieldSelectForm extends React.Component<any, any> {
                                 <FormGroup>
                                     <Collapse isOpen={this.isOptionRequired()}>
                                         <Label for="fieldOptions" className='fieldLabel'>Options</Label>
-                                        <TagsInput onlyUnique={true}
+                                        <TagsInput 
+                                            
+                                            inputValue={this.state.tag}
+                                            onChangeInput={this.handleChangeInput.bind(this)}
+                                            maxTags={10}
+                                            inputProps= {{placeholder: 'Add options...'}}
+                                            onlyUnique={true}
                                             className={'react-tagsinput tagInput '.concat(optionInValid ? 'inValidInput ' : '')}
                                             value={this.state.tags}
                                             onChange={(value: any) => this.handleChange('tags', value)} />
