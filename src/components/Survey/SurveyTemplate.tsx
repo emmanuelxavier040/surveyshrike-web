@@ -138,14 +138,25 @@ class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
   }
 
   updateSurveyCreateStatus(status: boolean) {
-    console.log(status)
+
+    if(status === true) {
+      this.setState({
+        surveyCreateSuccess: status,
+      })    
+
+      setTimeout(()=>  {
+        this.setState({
+          ...this.defaultState
+        })
+        this.props.clearSurveyForm()
+        history.push('/surveys') }, 3000);      
+    }
+    else
     this.setState({
       surveyCreateSuccess: status,
       showSpinner: false
     })
-    if(status === true) {      
-      setTimeout(()=>  history.push('/surveys'), 3000);  
-    }
+    
   }
 
   onDismiss() {

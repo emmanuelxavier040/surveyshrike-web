@@ -14,7 +14,7 @@ export const SurveyListPresentation = (props: any) => {
                             )
                         })}
                     </Row>
-                </Fade>
+                </Fade>                
             </Container>
         </React.Fragment>
     )
