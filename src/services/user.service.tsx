@@ -14,25 +14,32 @@ function login(response: any) {
         methos: 'POST'
     }
     const loginResponse = apiService.apiCall('/login',requestOptions)
-    .then(result => {
-        if(result != null) {
-            localStorage.setItem('jwt_authorization', JSON.stringify(result))
-        }
-    })
-    .catch(rej => {})
+    .then(
+        (result: any) => {
+            if(result != null) {
+                localStorage.setItem('jwt_authorization', result.jwt_token)
+            }
+        },
+        (error: any) => {
+            return Promise.reject(error)
+        })
+            
     return loginResponse
 }
 
-function authenticateToken() {
+function authenticateToken() {    
+    if(localStorage.getItem('jwt_authorization') == null) {
+        return Promise.reject();
+    }
     const requestOptions = {
         method: 'GET'
     }
     const authenticateResponse = apiService.apiCall(
-        '/authenticate-token',
+        '/authorize',
         requestOptions
     )
     authenticateResponse
-        .then(result => { if (result !== null) console.log('Valid Token') })
+        .then(result => { if (result !== null){} })
         .catch(error => {
            logout()
         })
@@ -41,7 +48,7 @@ function authenticateToken() {
 
 
 function logout() {
-    localStorage.removeItem('google_toekn')
-    localStorage.removeItem('user_token')
+    localStorage.removeItem('google_token')
+    localStorage.removeItem('jwt_authorization')
 
 }

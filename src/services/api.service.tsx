@@ -5,7 +5,7 @@ export const apiService = { apiCall }
 function createDefaultHeader() {
     let header: any = {}
     header["Content-Type"] = "application/json"
-    header["Authorization"] = "Bearer " + localStorage.getItem("jwt_authorization")+''
+    header["Authorization"] = 'Bearer '.concat(localStorage.getItem("jwt_authorization")+'')
     header["Google-Token"] = localStorage.getItem("google_token")+''
     return header
 }

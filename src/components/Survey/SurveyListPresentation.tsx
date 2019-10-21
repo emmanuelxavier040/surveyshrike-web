@@ -10,7 +10,7 @@ export const SurveyListPresentation = (props: any) => {
                     <Row>
                         {props.surveyList.map((survey: any, index: any) => {
                             return (
-                                <SurveyBox key={index} survey={survey} />
+                                <SurveyBox key={index} survey={survey} takeSurvey={props.takeSurvey}/>
                             )
                         })}
                     </Row>

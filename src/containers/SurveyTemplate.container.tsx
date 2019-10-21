@@ -1,7 +1,7 @@
 import { connect, Dispatch } from 'react-redux'
 import CreateSurveyTemplateParent from '../components/Survey/SurveyTemplate'
 import { IAppReducer } from '../reducers/reducers'
-import {SurveyActions} from '../actions/survey.actions'
+import {CreateSurveyActions} from '../actions/newSurvey.actions'
 
 interface ISurveyStateProps {
     survey: any,
@@ -26,16 +26,16 @@ interface ISurveyDispatchProps {
     addSurveyDescription: (value: any) => any
     removeSurveyFormElement: (value: any) => any,
     clearSurveyForm: () => any,
-    createSurvey: (value: any, callback: any) => any
+    createSurvey: (value: any) => any
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<IAppReducer>): ISurveyDispatchProps => ({
-    addSurveyFormElement: value => dispatch(SurveyActions.addSurveyFormElement(value)),
-    addSurveyName: value => dispatch(SurveyActions.addSurveyName(value)),
-    addSurveyDescription: value => dispatch(SurveyActions.addSurveyDescription(value)),
-    removeSurveyFormElement: value => dispatch(SurveyActions.removeSurveyFormElement(value)),
-    clearSurveyForm: () => dispatch(SurveyActions.clearSurveyForm()),
-    createSurvey: (value, callback: any = () => {}) => SurveyActions.createSurvey(value, callback)(dispatch)
+    addSurveyFormElement: value => dispatch(CreateSurveyActions.addSurveyFormElement(value)),
+    addSurveyName: value => dispatch(CreateSurveyActions.addSurveyName(value)),
+    addSurveyDescription: value => dispatch(CreateSurveyActions.addSurveyDescription(value)),
+    removeSurveyFormElement: value => dispatch(CreateSurveyActions.removeSurveyFormElement(value)),
+    clearSurveyForm: () => dispatch(CreateSurveyActions.clearSurveyForm()),
+    createSurvey: (value) => CreateSurveyActions.createSurvey(value)(dispatch)
 })
 
 

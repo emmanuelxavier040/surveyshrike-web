@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { ISurveyListProps } from '../../containers/SurveyList.container';
-import SurveyListPresentation from './SurveyListPresentation';
+import { ISurveyListProps } from '../../containers/MySurveysList.container';
+import MySurveyListPresentation from './MySurveysPresentation';
 import { Spinner } from 'reactstrap'
 
-class SurveyList extends React.Component<ISurveyListProps, any> {
+class MySurveysList extends React.Component<ISurveyListProps, any> {
 
     componentDidMount() {
-        this.props.getSurveys()
+        this.props.getMySurveys()
     }
 
     componentWillUnmount() {
@@ -19,12 +19,11 @@ class SurveyList extends React.Component<ISurveyListProps, any> {
                 <div className="container">
                     {this.props.surveyList.length === 0 && <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />
                     }
-
-                    <SurveyListPresentation surveyList={this.props.surveyList} />
+                    <MySurveyListPresentation surveyList={this.props.surveyList} />
                 </div>
             </React.Fragment>
         )
     }
 }
 
-export default SurveyList
+export default MySurveysList

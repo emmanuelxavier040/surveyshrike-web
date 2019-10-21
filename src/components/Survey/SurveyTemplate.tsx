@@ -6,53 +6,8 @@ import './css/SurveyTemplate.css';
 import FieldSelectForm from "./FieldSelectionForm";
 import { SurveyTemplatePresentation } from './SurveyTemplatePresentation';
 import history from '../../history'
-
+import { createId } from './Utils'
 require('crypto');
-
-export const FormElements = [
-  // {
-  //   type: 'email',
-  //   name: 'email',
-  //   id: 'exampleEmail',
-  //   placeholder: 'with a placeholder',
-  //   label: 'Email'
-  // },
-  // {
-  //   type: 'password',
-  //   name: 'password',
-  //   id: 'examplePassword',
-  //   placeholder: 'with a placeholder',
-  //   label: 'Password'
-  // },
-  // {
-  //   type: 'textarea',
-  //   name: 'textarea',
-  //   id: 'exampleTextarea',
-  //   placeholder: 'with a placeholder',
-  //   label: 'Textarea'
-  // },
-  // {
-  //   type: 'file',
-  //   name: 'file',
-  //   id: 'exampleFile',
-  //   placeholder: 'with a placeholder',
-  //   label: 'File'
-  // },
-  // {
-  //   type: 'radio',
-  //   placeholder: '',
-  //   label: 'Radio Test',
-  //   id: 'radioBox',
-  //   tags: ['radio 1', 'radio 2', 'radio 3']
-  // },
-  // {
-  //   type: 'checkbox',
-  //   placeholder: '',
-  //   label: 'Checkbox Test',
-  //   id: 'checkBox',
-  //   tags: ['Checkbox 1', 'Checkbox 2', 'Checkbox 3']
-  // }
-]
 
 class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
 
@@ -74,12 +29,6 @@ class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
     this.isValidSurveyDetail = this.isValidSurveyDetail.bind(this)
     this.togglePopOver = this.togglePopOver.bind(this)
     this.onDismiss = this.onDismiss.bind(this)
-  }
-
-  createId(value: string) {
-    var crypto = require('crypto');
-    var hash = crypto.createHash('md5').update(value).digest('hex');
-    return hash
   }
 
   toggleFieldSelection() {
@@ -113,7 +62,7 @@ class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
 
   addNewField(newFieldData: any) {
     let newFieldElement = { ...newFieldData }
-    newFieldElement.id = this.createId(newFieldElement.questionText)
+    newFieldElement.id = createId(newFieldElement.questionText)
     this.toggleFieldSelection()
     this.props.addSurveyFormElement(newFieldElement)
   }
@@ -124,45 +73,48 @@ class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
 
   createSurvey() {
     const newFormElements = this.props.survey.formElements.map(
-      (element: any, index: any) => { return { ...element, orderNumber: index } })
+      (element: any, index: any) => {
+        return { ...element, orderNumber: index }
+      })
     const surveyObject = {
       surveyName: this.props.survey.surveyName,
       surveyDescription: this.props.survey.surveyDescription,
       questions: newFormElements
     }
-    console.log(surveyObject)
     this.setState({
       showSpinner: true
-    }, () => this.props.createSurvey(surveyObject, this.updateSurveyCreateStatus.bind(this)))
+    }, () => this.props.createSurvey(surveyObject))
 
+
+  }
+
+  componentWillReceiveProps(nextProps: any) {
+    if (nextProps.survey.surveyCreationStatus === true) {
+      this.updateSurveyCreateStatus(true)
+    } else if (nextProps.survey.surveyCreationStatus === false) this.updateSurveyCreateStatus(false)
   }
 
   updateSurveyCreateStatus(status: boolean) {
 
-    if(status === true) {
-      this.setState({
-        surveyCreateSuccess: status,
-      })    
+    if (status === true) {
+      this.setState({ surveyCreateSuccess: status })
 
-      setTimeout(()=>  {
-        this.setState({
-          ...this.defaultState
-        })
+      setTimeout(() => {
+        this.setState({ ...this.defaultState })
         this.props.clearSurveyForm()
-        history.push('/surveys') }, 3000);      
+        history.push('/surveys')
+      }, 3000);
     }
     else
-    this.setState({
-      surveyCreateSuccess: status,
-      showSpinner: false
-    })
-    
+      this.setState({
+        surveyCreateSuccess: status,
+        showSpinner: false
+      })
+
   }
 
   onDismiss() {
-    this.setState({
-      surveyCreateSuccess: null
-    })
+    this.setState({ surveyCreateSuccess: null })
   }
 
   closeCreateSurvey() {
@@ -177,7 +129,7 @@ class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
     const isStrictInValidSurveyName = !this.isValidSurveyDetail('surveyName', 'strict')
     const isStrictInValidSurveyDescription = !this.isValidSurveyDetail('surveyDescription', 'strict')
     const isInValidSurvey = this.state.surveyCreateSuccess === true || isStrictInValidSurveyName || isStrictInValidSurveyDescription
-    
+
     const props = {
       showTemplate: this.props.showTemplate,
       toggleTemplate: this.closeCreateSurvey.bind(this),
@@ -204,7 +156,7 @@ class CreateSurveyTemplateParent extends React.Component<ISurveyProps, any> {
           <ModalBody>
             <SurveyTemplatePresentation {...props} />
             <ModalFooter>
-              <Spinner style={{ display: ''.concat(this.state.showSpinner || this.state.surveyCreateSuccess ? 'block ' : 'none'), marginRight: '20px' }} color="primary" />
+              <Spinner style={{ display: ''.concat(this.state.showSpinner || this.state.surveyCreateSuccess ? 'block ' : 'none'), marginRight: '20px' }} color="primary"  type="grow"/>
               <Button id="previewPopOverId" color="info" size="lg" onClick={props.togglePopOver}>Preview</Button>
               {/* Need to fix */}
               {/* <Popover placement="bottom" isOpen={props.showPreviewPopOver} target="previewPopOverId" toggle={props.togglePopOver}>

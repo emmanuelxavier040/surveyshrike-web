@@ -13,11 +13,15 @@ export const userActions = {
 
 function loginUser(response: any) {
     return (dispatch: any) => {
-        console.log(response)
         const user = response.w3.ofa
         dispatch(request(user))
-        userService.login(response)
-        dispatch(success(user))
+        userService.login(response).then( 
+            (response: any) => {
+                dispatch(success(response))
+            },
+            (error: any) => {
+                dispatch(failure(user))
+            })
     }
 
     function request(user: any) {
@@ -27,10 +31,17 @@ function loginUser(response: any) {
     function success(user: any) {
         return { type: userConstants.LOGIN_SUCCESS, user }
     }
+
+    function failure(user: any) {
+        return { type: userConstants.LOGIN_FAILURE, user }
+    }
 }
 
 function logoutUser() {
     return (dispatch: any) => {
-        console.log('logout triggered')
+        console.log('loggin out')
+        // dispatch({ type: userConstants.LOGOUT_REQUEST })
+        userService.logout();
+        // dispatch({ type: userConstants.LOGOUT_SUCCESS })
     }
 }

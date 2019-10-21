@@ -33,8 +33,7 @@ export default class FieldSelectForm extends React.Component<any, any> {
 
     handleChange(property: any, value: any) {
         if(property === 'tags') {
-            let choices = this.state.choices
-            choices.push({choiceValue: this.state.tag})
+            let choices = value+''
             this.setState({ choices, [property]: value })
         }
         else

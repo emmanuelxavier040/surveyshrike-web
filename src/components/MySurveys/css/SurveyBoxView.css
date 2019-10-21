@@ -1,0 +1,18 @@
+.survey-box-view-parent {
+    display: flex;
+}
+
+
+.survey-box-view {
+    padding: 2%;  
+    border-width: 1px;
+    border-style: none;
+}
+
+.survey-box-view:hover {
+    border-style: outset;    
+}
+
+.survey-image img {
+    max-width: 100%;
+}

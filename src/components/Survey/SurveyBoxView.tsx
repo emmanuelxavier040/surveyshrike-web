@@ -1,11 +1,10 @@
 import  React, { useState } from 'react';
 import { Button, ButtonGroup, Card, CardBody, CardText, Col, CardTitle } from 'reactstrap';
-import TakeSurvey from './TakeSurveyForm'
+import {TakeSurveyForm} from '../../containers/SurveyList.container'
 
 import './css/SurveyBoxView.css';
 
 export const SurveyBox = (props: any) => {
-    console.log(props)
     const [showForm, toggleShowForm] = useState(false);
 
     return (
@@ -23,7 +22,9 @@ export const SurveyBox = (props: any) => {
                 </CardBody>
             </Card>
         </Col>
-        <TakeSurvey survey={props.survey} showForm={showForm} cancelControl={toggleShowForm}/>
+        { showForm && 
+        <TakeSurveyForm survey={props.survey} showForm={showForm} cancelControl={toggleShowForm}/>
+        }
         </React.Fragment>
     )
 }

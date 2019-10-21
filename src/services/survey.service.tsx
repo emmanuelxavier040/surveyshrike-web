@@ -3,15 +3,16 @@ import { apiService } from './api.service'
 
 export const surveyService = {
     getAllSurveys,
-    createNewSurvey
+    createNewSurvey,
+    takeSurvey,
+    getMySurveys,
+    getAllResponsesForSurvey
 }
 
-function getAllSurveys() {
-    const requestOptions = {
-        method: 'GET',        
-    }
-    const getSurveysResponse = apiService.apiCall('/surveys', requestOptions)
-    getSurveysResponse
+
+function callAPI(requestOptions: any, path: any) {
+    const response = apiService.apiCall(path, requestOptions)
+    response
         .then(
             (response: any) => {
                 return response
@@ -20,36 +21,43 @@ function getAllSurveys() {
                 return Promise.reject(error)
             }
         )
-    return getSurveysResponse
+    return response
 }
 
-
-
-// {
-//     surveyName: 'SurveyName 1',
-//     surveyDescription: 'This is a description for this survey.',
-//     formElements: {
-//         label: 'FieldName 1',
-//         type: 'text',
-//         placeholder: 'Placeholder for the input box',
-//         tags: ['Option 1','Option 2','Option 3']
-//     }
-// }
+function getAllSurveys() {
+    const requestOptions = {
+        method: 'GET',
+    }
+    return callAPI(requestOptions, '/surveys')
+}
 
 function createNewSurvey(surveyObj: any) {
     const requestOptions = {
         method: 'POST',
         body: JSON.stringify(surveyObj)
     }
-    const createSurveyResponse = apiService.apiCall('/create-survey', requestOptions)
-    createSurveyResponse
-        .then(
-            (response: any) => {
-                return response
-            },
-            (error: any) => {
-                return Promise.reject(error)
-            }
-        )
-    return createSurveyResponse
+    return callAPI(requestOptions, '/create-survey')
 }
+
+function takeSurvey(surveyResponseObj: any) {
+    const requestOptions = {
+        method: 'POST',
+        body: JSON.stringify(surveyResponseObj)
+    }
+    return callAPI(requestOptions, '/take-survey')
+}
+
+function getMySurveys() {
+    const requestOptions = {
+        method: 'GET',
+    }
+    return callAPI(requestOptions, '/my-surveys')
+}
+
+function getAllResponsesForSurvey(surveyId: any) {
+    const requestOptions = {
+        method: 'GET',
+    }
+    return callAPI(requestOptions, '/survey-responses/'.concat(surveyId))
+}
+
